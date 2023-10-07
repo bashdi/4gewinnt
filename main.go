@@ -25,7 +25,12 @@ func main() {
 	vg.drawBoard = func(board [][]int) {
 		for i := range board {
 			for _, field := range board[i] {
-				fmt.Printf(" # %d", field)
+				if field == 0 {
+					fmt.Printf(" #  ")
+				} else {
+					fmt.Printf(" # %d", field)
+				}
+
 			}
 			fmt.Printf(" #\n")
 		}
