@@ -4,6 +4,7 @@ import (
 	"math/rand"
 )
 
+// Simple Implementation einer Spieler-KI
 type VgPlayerComputer struct {
 	name string
 }

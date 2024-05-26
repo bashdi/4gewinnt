@@ -7,14 +7,11 @@ type VierGewinnt struct {
 	players       []VgPlayer
 	currentPlayer int
 
-	drawBoard      func([][]int)
-	announcePlayer func(string)
-	announceWinner func(string)
-	announceDraw   func()
+	visualAction VgRepresentation
 }
 
-func NewVierGewinnt(xSize, ySize int) *VierGewinnt {
-	vg := VierGewinnt{xSize: xSize, ySize: ySize}
+func NewVierGewinnt(visualAction VgRepresentation, xSize, ySize int) *VierGewinnt {
+	vg := VierGewinnt{visualAction: visualAction, xSize: xSize, ySize: ySize}
 	vg.createBoard()
 
 	return &vg
@@ -58,26 +55,6 @@ func (vg *VierGewinnt) addCoin(column int) bool {
 		}
 	}
 	return false
-}
-
-// Legt fest wie das Spielfeld dargestellt werden soll
-func (vg *VierGewinnt) SetDrawBoard(drawBoard func([][]int)) {
-	vg.drawBoard = drawBoard
-}
-
-// Legt fest wie der aktuelle Spieler aufgefordert werden soll
-func (vg *VierGewinnt) SetAnnouncePlayer(announcePlayer func(name string)) {
-	vg.announcePlayer = announcePlayer
-}
-
-// Legt fest wie der Gewinner bekannt gegeben werden soll
-func (vg *VierGewinnt) SetAnnounceWinner(announceWinner func(name string)) {
-	vg.announceWinner = announceWinner
-}
-
-// Legt fest wie ein Unentschieden bekannt gegeben werden soll
-func (vg *VierGewinnt) SetAnnounceDraw(announceDraw func()) {
-	vg.announceDraw = announceDraw
 }
 
 // Prüft ob es einen Gewinner gibt
@@ -177,13 +154,13 @@ func (vg *VierGewinnt) nextPlayer() {
 func (vg *VierGewinnt) StartGame() {
 	//init board und erstes zeichnen
 	vg.createBoard()
-	vg.drawBoard(vg.board)
+	vg.visualAction.DrawBoard(vg.board)
 	vg.nextPlayer()
 
 	//gameloop
 	for {
 		vgPlayer := vg.players[vg.currentPlayer-1]
-		vg.announcePlayer(vgPlayer.GetPlayerName())
+		vg.visualAction.AnnouncePlayersTurn(vgPlayer.GetPlayerName())
 		//Spieler eingabe, wird solange gemacht bis eingabe korrekt
 		for {
 			column := vgPlayer.DoTurn(vg.board)
@@ -193,17 +170,17 @@ func (vg *VierGewinnt) StartGame() {
 			}
 		}
 
-		vg.drawBoard(vg.board)
+		vg.visualAction.DrawBoard(vg.board)
 
 		//Prüfen ob jemand gewonnen hat
 		if vg.isThereAWinner() {
-			vg.announceWinner(vgPlayer.GetPlayerName())
+			vg.visualAction.AnnounceWinner(vgPlayer.GetPlayerName())
 			break
 		}
 
 		//Prüfen ob es ein Unentschieden ist
 		if vg.isThereADraw() {
-			vg.announceDraw()
+			vg.visualAction.AnnounceDraw()
 			break
 		}
 
