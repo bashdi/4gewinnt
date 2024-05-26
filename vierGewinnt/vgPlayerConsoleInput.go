@@ -1,4 +1,4 @@
-package main
+package viergewinnt
 
 import (
 	"fmt"

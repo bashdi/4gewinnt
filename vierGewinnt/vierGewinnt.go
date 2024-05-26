@@ -1,4 +1,4 @@
-package main
+package viergewinnt
 
 type VierGewinnt struct {
 	xSize         int
@@ -44,7 +44,7 @@ func (vg *VierGewinnt) AddPlayer(player VgPlayer) {
 }
 
 // Aktueller Spieler setzt seine Münze
-func (vg *VierGewinnt) AddCoin(column int) bool {
+func (vg *VierGewinnt) addCoin(column int) bool {
 	//Überprüfen ob es die Spalte gibt
 	if column >= vg.xSize || column < 0 {
 		return false
@@ -188,7 +188,7 @@ func (vg *VierGewinnt) StartGame() {
 		for {
 			column := vgPlayer.DoTurn(vg.board)
 
-			if vg.AddCoin(column) {
+			if vg.addCoin(column) {
 				break
 			}
 		}

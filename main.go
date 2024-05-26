@@ -1,28 +1,31 @@
 package main
 
-import "fmt"
+import (
+	viergewinnt "4gewinnt/vierGewinnt"
+	"fmt"
+)
 
 func main() {
 
-	vg := NewVierGewinnt(18, 5)
-	vg.AddPlayer(NewVgPlayerConsoleInput("Spieler1"))
-	vg.AddPlayer(NewVgPlayerComputer("Computer2"))
-	vg.AddPlayer(NewVgPlayerComputer("Computer3"))
-	vg.AddPlayer(NewVgPlayerComputer("Computer4"))
+	vg := viergewinnt.NewVierGewinnt(25, 10)
+	vg.AddPlayer(viergewinnt.NewVgPlayerConsoleInput("Spieler1"))
+	vg.AddPlayer(viergewinnt.NewVgPlayerComputer("Computer2"))
+	vg.AddPlayer(viergewinnt.NewVgPlayerComputer("Computer3"))
+	vg.AddPlayer(viergewinnt.NewVgPlayerComputer("Computer4"))
 
-	vg.announcePlayer = func(s string) {
+	vg.SetAnnouncePlayer(func(s string) {
 		fmt.Printf("%s ist dran\n", s)
-	}
+	})
 
-	vg.announceDraw = func() {
+	vg.SetAnnounceDraw(func() {
 		fmt.Println("Unentschieden! Es konnte kein Gewinner ermittelt werden!")
-	}
+	})
 
-	vg.announceWinner = func(s string) {
+	vg.SetAnnounceWinner(func(s string) {
 		fmt.Printf("%s hat gewonnen!\n", s)
-	}
+	})
 
-	vg.drawBoard = func(board [][]int) {
+	vg.SetDrawBoard(func(board [][]int) {
 		for i := range board {
 			for _, field := range board[i] {
 				if field == 0 {
@@ -34,7 +37,7 @@ func main() {
 			}
 			fmt.Printf(" #\n")
 		}
-	}
+	})
 
 	vg.StartGame()
 }

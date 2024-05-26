@@ -1,4 +1,4 @@
-package main
+package viergewinnt
 
 type VgPlayer interface {
 	GetPlayerName() string
