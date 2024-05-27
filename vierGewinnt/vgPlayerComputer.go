@@ -17,7 +17,7 @@ func (vgpc *VgPlayerComputer) GetPlayerName() string {
 	return vgpc.name
 }
 
-func (vgpc *VgPlayerComputer) DoTurn(board [][]int) int {
-	column := rand.Intn(len(board[0]))
+func (vgpc *VgPlayerComputer) DoTurn(gameState VgGameState) int {
+	column := rand.Intn(len(gameState.Board()[0]))
 	return column
 }

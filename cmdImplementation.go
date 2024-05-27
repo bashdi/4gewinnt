@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	viergewinnt "4gewinnt/vierGewinnt"
+	"fmt"
+)
 
 type CmdLineRepresentation struct {
 }
@@ -43,7 +46,7 @@ func (vgpc *VgPlayerCmdLine) GetPlayerName() string {
 	return vgpc.name
 }
 
-func (vgpc *VgPlayerCmdLine) DoTurn(board [][]int) int {
+func (vgpc *VgPlayerCmdLine) DoTurn(gameState viergewinnt.VgGameState) int {
 	fmt.Println("Enter column:")
 	var column int
 	_, err := fmt.Scanf("%d", &column)
